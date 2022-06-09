@@ -19,7 +19,7 @@ namespace Produire.PImaging
 		/// </summary>
 		/// <param name="image">読み取り画像</param>
 		/// <param name="lang">対象の言語</param>
-		/// <returns></returns>
+		/// <returns>読み取った文字列</returns>
 		[自分で]
 		public string 読み取る([を]Image image, [として, 省略]string lang)
 		{
@@ -35,8 +35,9 @@ namespace Produire.PImaging
 			Task<OcrResult> t2 = null;
 			Task.Run(() =>
 			{
-				t2 = RunOcr(x1, lang);
+				t2 = Recognize(x1, lang);
 			}).Wait();
+
 			OcrResult x2 = t2.Result;
 			StringBuilder builder = new StringBuilder();
 			foreach (var line in x2.Lines)
@@ -60,7 +61,6 @@ namespace Produire.PImaging
 
 		private bool IsHalf(string text)
 		{
-			bool half = true;
 			for (int i = 0; i < text.Length; i++)
 			{
 				char c = text[i];
@@ -70,7 +70,7 @@ namespace Produire.PImaging
 				else
 					return false;
 			}
-			return half;
+			return true;
 		}
 
 		private async Task<SoftwareBitmap> ConvertSoftwareBitmap(Bitmap bitmap)
@@ -100,7 +100,7 @@ namespace Produire.PImaging
 			return sbitmap;
 		}
 
-		private async Task<OcrResult> RunOcr(SoftwareBitmap sbitmap, string lang)
+		private async Task<OcrResult> Recognize(SoftwareBitmap sbitmap, string lang)
 		{
 			OcrEngine engine = OcrEngine.TryCreateFromLanguage(new Windows.Globalization.Language(lang));
 			var result = await engine.RecognizeAsync(sbitmap);

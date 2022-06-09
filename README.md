@@ -16,6 +16,8 @@ Windows 10 Build 19041
 ## 種類
 
 - OCR
+-- 画像を認識して文字列を読み取ります
+- スキャナ
+-- イメージスキャナから画像を読み取ります
 
-
-Copyright (c) 2022 utopiat.net
+Copyright (C) 2022 utopiat.net
